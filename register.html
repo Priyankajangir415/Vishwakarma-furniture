@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <link rel="stylesheet" href="./styles.css">
+    </head>
+    <body>
+
+        <div id="register" class="container" style="background-color: rgba(32, 80, 36, 0.452); color: rgb(9, 31, 24); padding: 7.5rem; padding-top: 2.5rem; padding-bottom: 2.9rem; border-radius: 1rem;">
+        <form   id="registerForm">
+
+
+            <h1 style="text-align: center;">REGISTER</h1>
+            <hr>
+            <h3>Enter your E-Mail:</h3>
+            <input required type="email" placeholder="E-Mail" id="email">
+            <h3>Create Password:</h3>
+            <input required type="password" placeholder="Password" id="password">
+            <h3>Confirm password:</h3>
+            <input required type="password" placeholder="Confirm Password" id="confirmPassword">
+            <div id="error" class="error"></div>
+            <a href="./index2.html" style="text-decoration: none;"><button type="submit" style="margin-top: 1rem; width: 6rem;">REGISTER</button></a>
+            <p id="registerMessage"></p>
+            </form>
+            <div id="successMessage"></div>
+        </div>
+
+
+
+        
+        <script>
+            document.getElementById('registerForm').addEventListener('submit', function(event) {
+    event.preventDefault();  // Prevent the default form submission
+
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const errorDiv = document.getElementById('error');
+    const successMessage = document.getElementById('successMessage');
+    const registerMessage = document.getElementById('registerMessage');
+
+            // Get the existing users from localStorage
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+
+            // Check if the email is already registered
+            const userExists = users.some(user => user.email === email);
+
+            if (userExists) {
+                registerMessage.textContent = 'This email is already registered!';
+            } else {
+                // Register the new user
+                users.push({ email: email, password: password });
+                localStorage.setItem('users', JSON.stringify(users));
+                registerMessage.textContent = 'Registration successful! You can now log in.';
+            }
+
+            // Reset form
+            document.getElementById('registerForm').reset();
+        
+
+    // Clear previous messages
+    errorDiv.textContent = '';
+    successMessage.textContent = '';
+
+    // Basic validation
+    if (password !== confirmPassword) {
+        errorDiv.textContent = 'Passwords do not match.';
+        return;
+    }
+    // Mock registration success
+    successMessage.textContent = `Registration successful! Welcome`;
+    setTimeout(function() {
+        window.location.href = 'index2.html';
+    }, 1000);  // 2-second delay before redirecting
+    });
+
+        </script>
+    </body>
+</html>
